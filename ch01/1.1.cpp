@@ -3,7 +3,7 @@
  * data structures.
  */
 
-#include "..\ctci.h"
+#include "../ctci.h"
 
 using namespace std;
 

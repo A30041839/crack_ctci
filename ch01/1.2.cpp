@@ -1,15 +1,16 @@
-#include <iostream>
-#include <cstring>
+#include "../ctci.h" 
 
 using namespace std;
 
+//swap based method
+//time complexity: O(n), space complexity:O(1)
 void reverse(char* str){
-  if (str == NULL || strlen(str) == 0) return;
-  size_t len = strlen(str);
-  for (size_t i = 0; i < len / 2; ++i){
-    char tmp = str[i];
-    str[i] = str[len - i - 1];
-    str[len - i - 1] = tmp;
+  if (str == nullptr or strlen(str) == 0) {
+    return;
+  }
+  int len = (int)strlen(str);
+  for (int i = 0; i < len / 2; ++i) {
+    swap(str[i], str[len - i - 1]);
   }
 }
 
