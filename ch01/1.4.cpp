@@ -1,30 +1,29 @@
-#include <iostream>
-#include <cstring>
+#include "../ctci.h"
+
 using namespace std;
 
-void replace(char* str){
-  if (str == NULL || str[0] == '\0') return;
-  size_t len = strlen(str);
-  for (int i = len - 1, j = i; i >= 0; --i){
-    if (str[i] == ' '){
-      if (j != len - 1){
-        str[j] = '0';
-        str[j - 1] = '2';
-        str[j - 2] = '%';
-        j -= 3;
-      }
-    }else{
-      str[j] = str[i];
-      --j;
+void replace(string& str, int len) {
+  int cnt = 0;
+  for (int i = 0; i < len; ++i) {
+    if (str[i] == ' ') {
+      cnt++;
+    }
+  }
+  for (int i = len -1, j = len + cnt * 2 - 1; i >= 0; --i) {
+    if (str[i] == ' ') {
+      str[j] = '0';
+      str[j - 1] = '2';
+      str[j - 2] = '%';
+      j -= 3;
+    }else {
+      str[j--] = str[i];
     }
   }
 }
+
 int main(){
-  const char* s = "Mr John Smith    ";
-  char* s1 = new char[strlen(s) + 1];
-  strcpy(s1, s);
-  replace(s1);
-  cout << s1 << endl;
-  delete[] s1;
+  string s = "Mr John Smith      ";
+  replace(s, 13);
+  cout << s << endl;
   return 0;
 }

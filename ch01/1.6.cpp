@@ -1,8 +1,8 @@
-#include <iostream>
-#include <vector>
+#include "../ctci.h"
+
 using namespace std;
 
-void rotate(vector<vector<int> >& m){
+void rotate_matrix(vector<vector<int> >& m){
   size_t len = m.size();
   for (size_t i = 0; i <= (len - 1) >> 1; ++i){
       for (size_t j = i; j < len - i - 1; ++j){
@@ -15,25 +15,15 @@ void rotate(vector<vector<int> >& m){
   }
 }
 
-void print_matrix(vector<vector<int> >& m){
-  for (size_t i = 0; i < m.size(); ++i){
-    for (size_t j = 0; j < m.size(); ++j){
-      if (j != m.size() - 1)
-        cout << m[i][j] << ",";
-      else
-        cout << m[i][j] << endl;
-    }
-  }
-}
-
 int main(){
   vector<vector<int> > matrix(9, vector<int>());
   int k = 1;
-  for (int i = 0; i < 9; ++i)
-    for (int j = 0; j < 9; ++j)
+  for (int i = 0; i < 9; ++i) {
+    for (int j = 0; j < 9; ++j) {
       matrix[i].push_back(k++);
-
-  rotate(matrix);
+    }
+  }
+  rotate_matrix(matrix);
   print_matrix(matrix);
   return 0;
 }

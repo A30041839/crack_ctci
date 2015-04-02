@@ -1,27 +1,39 @@
-#include <iostream>
-#include <cstring>
+#include "../ctci.h"
+
 using namespace std;
 
-const char* compress(const char* str){
-  if (str == NULL || str[0] == '\0') return "";
-  size_t len = strlen(str);
-  char* str_compressed = new char[len * 2 + 1];
-  for (size_t i = 0, j = 0, k = 0; i <= len; ++i){
-    if (str[i] != str[j]){
-      str_compressed[k] = str[j];
-      str_compressed[k + 1] = i - j + '0';
-      k += 2;
-      j = i;
+string compress_string(const string& s) {
+  string res;
+  int len = (int)s.size();
+  int cnt = 0;
+  char buffer[10];
+  for (int i = 0; i < len; ++i) {
+    if (i == 0) {
+      res.push_back(s[0]);
+      cnt = 1;
+    }else {
+      if (s[i] == s[i - 1]) {
+        cnt++;
+      }else {
+        sprintf(buffer, "%d", cnt);
+        res.append(string(buffer));
+        res.push_back(s[i]);
+        cnt = 1;
+      }
     }
   }
-  return strlen(str_compressed) < strlen(str) ? str_compressed : str;
+  if (cnt > 0) {
+    sprintf(buffer, "%d", cnt);
+    res.append(string(buffer));
+  }
+  return (int)res.size() < len ? res : s;
 }
 
 int main(){
-  const char* s = "aabcccccaaa";
-  cout << compress(s) << endl;
-  s = "abcdd";
-  cout << compress(s) << endl;
+  string s = "aabcccccaaa";
+  cout << compress_string(s) << endl;
+  s = "";
+  cout << compress_string(s) << endl;
   return 0;
 }
 
