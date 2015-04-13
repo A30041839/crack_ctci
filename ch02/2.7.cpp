@@ -1,4 +1,4 @@
-#include "LinkedList.hpp"
+#include "../header/LinkedList.hpp"
 #include <iostream>
 #include <vector>
 
@@ -24,7 +24,7 @@ int main(){
   vector<char> vec2 = { 'a', 'b', 'f', 'a'};
   LinkedList<char> ls1(vec1);
   LinkedList<char> ls2(vec2);
-  if (is_palindrome(ls2))
+  if (is_palindrome(ls1))
     cout << "The list is palindrome." << endl;
   else
     cout << "The list is not palindrome." << endl;
