@@ -1,4 +1,4 @@
-#include "LinkedList.hpp"
+#include "../header/LinkedList.hpp"
 #include <iostream>
 #include <vector>
 #include <unordered_set>
@@ -41,7 +41,7 @@ void remove_duplicate2(LinkedList<int>& ls){
 }
 
 int main(){
-  vector<int> vec = { 1, 4, -4, 8, 1, 6, 5, 5, 7, -4 };
+  vector<int> vec = { 1, 4, -4, 8, 1, 6, 5, 5, 7, -8, -8 };
   LinkedList<int> ls1(vec);
   ls1.print_list();
   remove_duplicate1(ls1);

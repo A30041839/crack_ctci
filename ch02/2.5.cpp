@@ -1,4 +1,4 @@
-#include "LinkedList.hpp"
+#include "../header/LinkedList.hpp"
 #include <iostream>
 #include <vector>
 #include <stack>
@@ -9,7 +9,7 @@ void sum1(LinkedList<int>& a, LinkedList<int>& b, LinkedList<int>& c){
   LNode<int>* pa = a.head->next;
   LNode<int>* pb = b.head->next;
   int carry = 0;
-  while (pa != NULL and pb != NULL){
+  while (pa != nullptr and pb != NULL){
     int tmp = carry + pa->val + pb->val;
     if (tmp >= 10){
       carry = 1;
