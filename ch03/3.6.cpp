@@ -1,4 +1,4 @@
-#include "../stl/header/stack.hpp"
+#include "../header/stack.hpp"
 #include <iostream>
 #include <vector>
 
@@ -26,8 +26,9 @@ void sort_stack(stack<T>& s){
       }
       _s.pop();
     }
-    while(cnt--)
+    while(cnt--) {
       _s.push(max);
+    }
   }
 
   while(!_s.empty()){
