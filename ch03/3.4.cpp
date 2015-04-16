@@ -1,4 +1,4 @@
-#include "../stl/header/stack.hpp"
+#include "../header/stack.hpp"
 #include <iostream>
 
 using namespace std;
@@ -51,8 +51,7 @@ int main(){
   Hanoi(s1, s2, s3, 4);
   cout << "plates in the third tower(from top to bottom)" << endl;
   while(!s3.empty()){
-    int k = s3.top();
-    cout << k << endl;
+    cout << s3.top() << endl;
     s3.pop();
   }
   return 0;
