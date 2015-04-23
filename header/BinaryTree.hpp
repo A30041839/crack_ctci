@@ -5,6 +5,7 @@
 #include <vector>
 #include <queue>
 #include <stack>
+#include <cstring>
 
 using namespace std;
 
@@ -325,7 +326,7 @@ BinaryTree<T>::BinaryTree(const char* input){
   this->root = NULL;
   stack<Tnode<T>* > _stack;
   int k = 0;
-  for (int i = 0; i < strlen(input); ++i){
+  for (int i = 0; i < (int)strlen(input); ++i){
     switch (input[i]){
       case '(' : _stack.push(ptr2); ptr1 = ptr2; k = 1; break;
       case ')' : _stack.pop(); break;
@@ -356,7 +357,7 @@ BinaryTree<int>::BinaryTree(const char* input){
   this->root = NULL;
   stack<Tnode<int>* > _stack;
   int k = 0;
-  for (int i = 0; i < strlen(input); ++i){
+  for (int i = 0; i < (int)strlen(input); ++i){
     switch (input[i]){
       case '(' : _stack.push(ptr2); ptr1 = ptr2; k = 1; break;
       case ')' : _stack.pop(); break;

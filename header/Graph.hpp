@@ -21,7 +21,7 @@ public:
   typedef Gnode<T>* pointer_type;
   DirectedGraph() {}
   ~DirectedGraph() {
-    for (int i = 0; i < m_graph.size(); ++i){
+    for (int i = 0; i < (int)m_graph.size(); ++i){
       delete m_graph[i];
     }
   }
@@ -34,12 +34,12 @@ public:
     pointer_type startNode = findNode(edge.first);
     pointer_type endNode = findNode(edge.second);
     int i = 0;
-    for (; i < startNode->adjacents.size(); ++i){
+    for (; i < (int)startNode->adjacents.size(); ++i){
       if (startNode->adjacents[i] == endNode){
         break;
       }
     }
-    if (i == startNode->adjacents.size()){
+    if (i == (int)startNode->adjacents.size()){
       startNode->adjacents.push_back(endNode);
     }
   }
@@ -55,7 +55,7 @@ public:
   }
 
   pointer_type findNode(T val){
-    for (int i = 0; i < m_graph.size(); ++i){
+    for (int i = 0; i < (int)m_graph.size(); ++i){
       if (m_graph[i]->val == val){
         return m_graph[i];
       }

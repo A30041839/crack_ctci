@@ -1,4 +1,4 @@
-#include "../stl/header/Graph.hpp"
+#include "../header/Graph.hpp"
 #include <iostream>
 #include <utility>
 
@@ -6,13 +6,13 @@ using namespace std;
 
 template<class T>
 bool dfs(DirectedGraph<T>& g, Gnode<T>* start, Gnode<T>* end){
-  for (int i = 0; i < start->adjacents.size(); ++i){
-    if (start->adjacents[i]->visited == false){
-      start->adjacents[i]->visited = true;
-      if (start->adjacents[i] == end){
-        return true;
-      }
-      if (dfs(g, start->adjacents[i], end) == true){
+  if (start == end) {
+    return true;
+  }
+  start->visited = true;
+  for (auto next : start->adjacents) {
+    if (next->visited == false) {
+      if (dfs(g, next, end) == true) {
         return true;
       }
     }
@@ -28,7 +28,8 @@ bool findPath(DirectedGraph<T>& g, T start, T end){
     return false;
   }
   bool res = dfs(g, s, e);
-  for (int i = 0; i < g.m_graph.size(); ++i){
+  //recover the visit flag
+  for (int i = 0; i < (int)g.m_graph.size(); ++i){
    g.m_graph[i]->visited = false;
   } 
   return res;
@@ -48,6 +49,5 @@ int main(){
   }else{
     cout << "the graph doesn't contain this route." << endl;
   }
-
   return 0;
 }

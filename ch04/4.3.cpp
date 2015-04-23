@@ -1,4 +1,4 @@
-#include "../stl/header/BinaryTree.hpp" 
+#include "../header/BinaryTree.hpp" 
 #include <iostream>
 #include <vector>
 
@@ -16,7 +16,7 @@ Tnode<int>* _BuildMinHeightBST(vector<int>& vec, int low, int high){
 }
 
 Tnode<int>* BuildMinHeightBST(vector<int>& vec){
-  if (vec.size() == 0){
+  if (vec.empty()){
     return NULL;
   }
   return _BuildMinHeightBST(vec, 0, vec.size() - 1);

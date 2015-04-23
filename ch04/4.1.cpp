@@ -1,4 +1,4 @@
-#include "../stl/header/BinaryTree.hpp"
+#include "../header/BinaryTree.hpp"
 #include <iostream>
 #include <cstdlib>
 
@@ -6,7 +6,7 @@ using namespace std;
 
 template<class T>
 bool isBalance(Tnode<T>* root, BinaryTree<T>& bt){
-  if (root == NULL){
+  if (root == nullptr){
     return true;
   }
   bool lbalance = isBalance(root->lchild, bt);

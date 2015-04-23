@@ -1,4 +1,4 @@
-#include "../stl/header/BinaryTree.hpp"
+#include "../header/BinaryTree.hpp"
 #include <iostream>
 
 using namespace std;
@@ -10,17 +10,9 @@ bool checkBST(Tnode<T>* root){
   }
   bool res1 = checkBST(root->lchild);
   bool res2 = checkBST(root->rchild);
-  if (res1 and res2){
-    if (root->lchild != NULL and root->lchild->val > root->val){
-      return false;
-    }
-    if (root->rchild != NULL and root->rchild->val < root->val){
-      return false;
-    }
-    return true;
-  }else{
-    return false;
-  }
+  return res1 and res2
+    and (!root->lchild or root->lchild->val < root->val)
+    and (!root->rchild or root->rchild->val > root->val);
 }
 
 int main(){
@@ -29,7 +21,7 @@ int main(){
   const char* str2 = "5(3(1,4),8(6,9))";
   BinaryTree<int> bt2(str2);
 
-  Tnode<int>* root = bt2.getRoot();
+  Tnode<int>* root = bt1.getRoot();
   if (checkBST<int>(root)){
     cout << "BinaryTree is a BST!" << endl;
   }else{
