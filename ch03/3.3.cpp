@@ -1,6 +1,4 @@
-#include "../header/stack.hpp"
-#include "../header/vector.hpp"
-#include <iostream>
+#include "../ctci.h"
 
 using namespace std;
 

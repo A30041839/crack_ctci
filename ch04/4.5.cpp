@@ -1,5 +1,5 @@
 #include "../header/BinaryTree.hpp"
-#include <iostream>
+#include "../ctci.h"
 
 using namespace std;
 

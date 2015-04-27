@@ -13,7 +13,7 @@ bool unique_char(const char* str){
     return false;
   }
   vector<int> cnt(256, 0);
-  for (int i = 0; i < strlen(str); ++i) {
+  for (size_t i = 0; i < strlen(str); ++i) {
     if (++cnt[str[i]] > 1) {
       return false;
     }

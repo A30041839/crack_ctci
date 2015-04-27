@@ -1,8 +1,6 @@
 #include "../header/BinaryTree.hpp"
 #include "../header/LinkedList.hpp"
-#include <vector>
-#include <queue>
-#include <iostream>
+#include "../ctci.h"
 
 using namespace std;
 

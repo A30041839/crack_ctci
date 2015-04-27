@@ -17,6 +17,7 @@
 #include <utility>
 #include <vector>
 #include <list>
+#include <bitset>
 
 
 //data structures

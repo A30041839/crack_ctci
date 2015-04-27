@@ -3,28 +3,31 @@
 using namespace std;
 
 void rotate_matrix(vector<vector<int> >& m){
-  size_t len = m.size();
-  for (size_t i = 0; i <= (len - 1) >> 1; ++i){
-      for (size_t j = i; j < len - i - 1; ++j){
-				int tmp = m[i][j];
-        m[i][j] = m[j][len - 1 - i];
-        m[j][len - 1 - i] = m[len - 1 - i][len - 1 - j];
-        m[len - 1 - i][len - 1 - j] = m[len - 1 - j][i];
-        m[len - 1 - j][i] = tmp;
-      }
+  int len = m.size();
+  for (int i = 0; i < len / 2; ++i) {
+    int first = i, last = len - 1 - i;
+    for (int j = first; j < last; ++j) {
+      int offset = j - first;
+      int tmp = m[i][j];
+      m[i][j] = m[last - offset][i];
+      m[last - offset][i] = m[last][last - offset];
+      m[last][last-offset] = m[j][last];
+      m[j][last] = tmp;
+    }
   }
 }
 
 int main(){
-  vector<vector<int> > matrix(9, vector<int>());
+  vector<vector<int> > matrix(5, vector<int>());
   int k = 1;
-  for (int i = 0; i < 9; ++i) {
-    for (int j = 0; j < 9; ++j) {
+  for (int i = 0; i < 5; ++i) {
+    for (int j = 0; j < 5; ++j) {
       matrix[i].push_back(k++);
     }
   }
+  print_matrix(matrix);
+  cout << "after rotation:" << endl;
   rotate_matrix(matrix);
   print_matrix(matrix);
   return 0;
 }
-

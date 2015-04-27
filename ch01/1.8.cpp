@@ -1,24 +1,18 @@
-#include<iostream>
-#include<string>
+#include "../ctci.h"
 
 using namespace std;
 
 bool is_rotation(string& s1, string& s2){
-	if (s1.length() == 0 || s2.length() == 0) return false;
-	if (s1.length() != s2.length()) return false;
-	int pos = -1;
-	for (size_t i = 0, j = 0; i < s1.length(); ++i){
-		if (s1[i] == s2[j]){
-			++j;
-			if (pos == -1) 
-				pos = i;
-		}else{
-			if (pos != -1)
-				return false;
-		}
-	}
-	return s2.find(s1.substr(0, pos)) != string::npos;
+  if (s1.empty() or s2.empty()) {
+    return false;
+  }
+  if (s1.size() != s2.size()) {
+    return false;
+  }
+  string s = s1 + s1;
+  return s.find(s2, 0) != string::npos;
 }
+
 
 int main(){
 	string s1("waterbottle");

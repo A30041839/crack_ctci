@@ -1,7 +1,4 @@
-#include <iostream>
-#include <list>
-#include <string>
-#include <stdexcept>
+#include "../ctci.h"
 
 using namespace std;
 

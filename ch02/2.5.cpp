@@ -1,7 +1,5 @@
 #include "../header/LinkedList.hpp"
-#include <iostream>
-#include <vector>
-#include <stack>
+#include "../ctci.h"
 
 using namespace std;
 

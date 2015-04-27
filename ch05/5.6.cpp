@@ -1,5 +1,4 @@
-#include <iostream>
-#include <bitset>
+#include "../ctci.h"
 
 using namespace std;
 
