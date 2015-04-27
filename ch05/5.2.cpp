@@ -1,36 +1,26 @@
 #include <iostream>
-#include <vector>
+#include <string>
 
 using namespace std;
 
-void print(double num){
-  double tmp = num;
-  int k = 2;
-  vector<char> bits;
-  bits.push_back('0');
-  bits.push_back('.');
-  while (tmp != 0 and k <= 32){
-    k++;
-    tmp *= 2;
-    if (tmp >= 1){
+string convert(double num){
+  string bits("0.");
+  int k = 0;
+  while (num != 0 and k < 30){
+    num *= 2;
+    if (num >= 1){
       bits.push_back('1');
-      tmp -= 1;
+      num -= 1;
     }else{
       bits.push_back('0');
     }
+    k++;
   }
-  if (tmp == 0){
-    for (int i = 0; i < bits.size(); ++i){
-      cout << bits[i];
-    }
-  }else{
-    cout << "ERROR";
-  }
-  cout << endl;
+  return num == 0 ? bits : "ERROR";
 }
 
 int main(){
-  print(0.5);
-  print(0.72);
+  cout << convert(0.5) << endl;
+  cout << convert(0.72) << endl;
   return 0;
 }

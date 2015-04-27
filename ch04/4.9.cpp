@@ -1,47 +1,31 @@
-#include "../stl/header/BinaryTree.hpp"
+#include "../header/BinaryTree.hpp"
 #include <iostream>
-#include <stack>
 #include <vector>
 
 using namespace std;
 
-void print(vector<int>& path){
-  for (int i = 0; i < path.size() - 1; ++i){
+void print(vector<int>& path, int beg, int end){
+  for (int i = beg; i < end; ++i){
     cout << path[i] << "->";
   }
-  cout << path.back() << endl;
+  cout << path[end] << endl;
 }
 
-//dfs search(preorder) of the subtree
-void _findPathSum(Tnode<int>* root, vector<int>& path, int& cursum, int sum){
-  if (root == NULL){
+void findPathSum(Tnode<int>* root, vector<int>& path, int target){
+  if (root == nullptr) {
     return;
   }
-  cursum += root->val;
   path.push_back(root->val);
-  if (cursum == sum){
-    print(path);
+  int sum = 0;
+  for (int i = path.size() - 1; i >= 0; --i) {
+    sum += path[i];
+    if (sum == target) {
+      print(path, i, path.size() - 1);
+    }
   }
-  _findPathSum(root->lchild, path, cursum, sum);
-  _findPathSum(root->rchild, path, cursum, sum);
+  findPathSum(root->lchild, path, target);
+  findPathSum(root->rchild, path, target);
   path.pop_back();
-  cursum -= root->val;
-}
-
-//process each subtree in a preorder sequence
-void findPathSum(Tnode<int>* root, vector<int>& path, int sum){
-  int cursum = 0;
-  if (root != NULL){
-    _findPathSum(root, path, cursum, sum);
-    if (root->lchild){
-      cursum = 0;
-      findPathSum(root->lchild, path, sum);
-    }
-    if (root->rchild){
-      cursum = 0;
-      findPathSum(root->rchild, path, sum);
-    }
-  }
 }
 
 int main(){

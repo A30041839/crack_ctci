@@ -1,47 +1,41 @@
 #include <iostream>
 #include <vector>
-#include <cmath>
 
 using namespace std;
 
-int fetchbit(vector<vector<int> >& vec, int i, int j){
-  return vec[i][j];
+int _findMissingNumber(vector<int>& vec, int p) {
+  if (vec.empty()) {
+    return 0;
+  }
+  vector<int> ones, zeros;
+  for (int n : vec) {
+    if ((n & (1 << p)) != 0) {
+      ones.push_back(n);
+    }else {
+      zeros.push_back(n);
+    }
+  }
+  if (zeros.size() <= ones.size()) {
+    int res = _findMissingNumber(zeros, p + 1);
+    return (res << 1);
+  }else {
+    int res = _findMissingNumber(ones, p + 1);
+    return (res << 1) | 1;
+  }
 }
 
-int findMissingNumber(vector<vector<int> >& vec, int n){
-  vector<int> tmpvec(n + 1, 0);
-  int len = floor(log(n) / log(2) + 1);
-  for (int i = 0; i < vec.size(); ++i){
-    int tmp = 0;
-    int c = 1;
-    for (int k = 0; k < len; ++k){
-      tmp += fetchbit(vec, i, k) * c;
-      c *= 2;
-    }
-    tmpvec[tmp] = 1;
-  }
-  int res = 0;
-  for (int i = 0; i < tmpvec.size(); ++i){
-    if (tmpvec[i] == 0){
-      res = i;
-      break;
-    }
-  }
-  return res;
+int findMissingNumber(vector<int>& vec) {
+  return _findMissingNumber(vec, 0);
 }
 
 int main(){
-  vector<vector<int> > vec;
-  vector<int> vec1 = {1, 0, 1};
-  vector<int> vec2 = {1, 0, 0};
-  vector<int> vec3 = {0, 1, 0};
-  vector<int> vec4 = {0, 0, 0};
-  vector<int> vec5 = {0, 1, 0};
-  vec.push_back(vec1);
-  vec.push_back(vec2);
-  vec.push_back(vec3);
-  vec.push_back(vec4);
-  vec.push_back(vec5);
-  cout << "The missing number is :" << findMissingNumber(vec, 5) << endl;
+  int n = 9, miss = 6;
+  vector<int> vec;
+  for (int i = 0; i <= n; ++i) {
+    if (i != miss) {
+      vec.push_back(i);
+    }
+  }
+  cout << "The missing number is :" << findMissingNumber(vec) << endl;
   return 0;
 }

@@ -1,15 +1,7 @@
 #include <iostream>
+#include <bitset>
 
 using namespace std;
-
-void printbits(int num){
-  int i = 31;
-  while (i >= 0){
-    cout << ((num & (1 << i)) >> i); 
-    i--;
-  }
-  cout << endl;
-}
 
 int insert(int m, int n, int i, int j){
   int mask = 0;
@@ -20,8 +12,12 @@ int insert(int m, int n, int i, int j){
 }
 
 int main(){
-  int n = 1 << 10;
-  int m = 19;
-  printbits(insert(m, n, 2, 6));
+  bitset<11> N("10001000000");
+  bitset<6> M("10011");
+  int n = N.to_ulong();
+  int m = M.to_ulong();
+  int r = insert(m, n, 2, 6);
+  bitset<11> res(r);
+  cout << res.to_string() << endl;
   return 0;
 }

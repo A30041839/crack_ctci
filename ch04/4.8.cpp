@@ -1,4 +1,4 @@
-#include "../stl/header/BinaryTree.hpp"
+#include "../header/BinaryTree.hpp"
 #include <iostream>
 #include <vector>
 

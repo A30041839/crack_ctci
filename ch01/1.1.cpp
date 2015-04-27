@@ -9,6 +9,9 @@ using namespace std;
 
 //time complexity: O(n), space complexity: O(1) 
 bool unique_char(const char* str){
+  if (strlen(str) > 256) {
+    return false;
+  }
   vector<int> cnt(256, 0);
   for (int i = 0; i < strlen(str); ++i) {
     if (++cnt[str[i]] > 1) {

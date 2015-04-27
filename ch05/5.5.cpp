@@ -3,13 +3,9 @@
 using namespace std;
 
 int num_of_changes(int a, int b){
-  int c = a ^ b;
   int k = 0;
-  while (c != 0){
-    if (c % 2 == 1){
-      k++;
-    }
-    c = c >> 1;
+  for (int c = a ^ b; c; c = c & (c - 1)) {
+    k++;
   }
   return k;
 }

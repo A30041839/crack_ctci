@@ -1,30 +1,16 @@
 #include <iostream>
+#include <bitset>
 
 using namespace std;
 
-void printbits(int num){
-  int i = 31;
-  while (i >= 0){
-    cout << ((num & (1 << i)) >> i); 
-    i--;
-  }
-  cout << endl;
-}
-
 void swapbits(int& num){
-  for (int i = 0; i < 31; i += 2){
-    int mask = 3 << i;
-    int tmp = (mask & num) >> i;
-    if (tmp == 1 or tmp == 2){
-      num = ((tmp ^ 3) << i) | (num & ~mask) ;
-    }
-  }
+  num = ((num & 0xaaaaaaaa) >> 1) | ((num & 0x55555555) << 1);
 }
 
 int main(){
-  int num = 279;
-  printbits(num);
+  bitset<10> n("101100101");
+  int num = n.to_ulong();
   swapbits(num);
-  printbits(num);
+  cout << bitset<10>(num).to_string() << endl;
   return 0;
 }
