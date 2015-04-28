@@ -2,8 +2,12 @@
 
 using namespace std;
 
+//each time, we keep the current maximum elements
+//in the additional stack, finally move elements
+//from additional stack to the original stack.
+//time: O(n^2) space O(n)
 template<class T>
-void sort_stack(stack<T>& s){
+void sort_stack1(stack<T>& s){
   stack<T> _s;
   while (!s.empty()){
     int k = s.size();
@@ -35,27 +39,35 @@ void sort_stack(stack<T>& s){
   }
 }
 
+//works like insertion sort, each time we insert the
+//element from original stack to the additional stack's
+//proper position.
+//time: O(n^2) space: O(n)
 template<class T>
-void print_stack(stack<T>& s){
-  vector<T> v;
-  while (!s.empty()){
+void sort_stack2(stack<T>& s) {
+  stack<T> _s;
+  while (!s.empty()) {
     T tmp = s.top();
-    v.push_back(tmp);
     s.pop();
-    cout << tmp << ",";
+    while (!_s.empty() and _s.top() < tmp) {
+      s.push(_s.top());
+      _s.pop();
+    }
+    _s.push(tmp);
   }
-  cout << endl;
-  for (int i = v.size() - 1; i >= 0; --i)
-    s.push(v[i]);
+  while (!_s.empty()) {
+    s.push(_s.top());
+    _s.pop();
+  }
 }
-
 
 int main(){
   stack<int> s;
   vector<int> v = { 1, -2, 2, 0, 9, 23, 21, 4, 5, 10, -8 };
-  for (size_t i = 0; i < v.size(); ++i)
+  for (size_t i = 0; i < v.size(); ++i) {
     s.push(v[i]);
-  sort_stack(s);
+  }
+  sort_stack2(s);
   print_stack(s);
   return 0;
 }

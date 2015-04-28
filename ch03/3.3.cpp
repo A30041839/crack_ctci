@@ -26,9 +26,30 @@ public:
     }
   }
 
+  //the pop_at method operates in a roll-over basis
   void pop_at(size_t index){
     if (index <= m_count - 1){
       m_stacks[index].pop();
+      for (size_t i = index + 1; i < m_count; ++i) {
+        stack<T> tmp;
+        while (!m_stacks[i].empty()) {
+          T top = m_stacks[i].top();
+          m_stacks[i].pop();
+          tmp.push(top);
+        }
+        T top = tmp.top();
+        tmp.pop();
+        m_stacks[i - 1].push(top);
+        while (!tmp.empty()) {
+          T top = tmp.top();
+          tmp.pop();
+          m_stacks[i].push(top);
+        }
+      }
+      if (m_stacks[m_count - 1].empty() and m_count > 1){
+        --m_count;
+        m_stacks.pop_back();
+      }
     }
   }
 
@@ -48,10 +69,11 @@ private:
 };
 
 int main(){
-  SetofStacks<int> ss;
-  for (int i = 0; i < 60; ++i)
+  SetofStacks<int> ss(5);
+  for (int i = 0; i < 11; ++i) {
     ss.push(i);
-  ss.pop_at(1);
+  }
+  ss.pop_at(0);
   while (!ss.empty()){
     cout << ss.top() << ",";
     ss.pop();

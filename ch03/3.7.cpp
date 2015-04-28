@@ -3,13 +3,21 @@
 using namespace std;
 
 struct Animal{
-  Animal(string _tag, string _name)
+  explicit Animal(string _tag, string _name)
   : tag(_tag), name(_name) {}
   string tag;
   string name;  
+  int order;
+
+  bool isOlderthan(const Animal& other) const {
+    return this->order < other.order;
+  }
 };
 
-class AnimalShelter{
+//use a single queue to store two kinds of animals,
+//time complexity is bad when dequeue a specific kind
+//of animal
+class AnimalShelter1{
 public:
   void enqueue(Animal animal){
     m_q.push_back(animal);
@@ -58,8 +66,66 @@ private:
  list<Animal> m_q;
 };
 
+//use two separate queues to store different kinds
+//of animals, use a timestamp variable to determine
+//the enqueue time of an animal
+class AnimalShelter2{
+public:
+  void enqueue(Animal animal){
+    animal.order = m_time_stamp++;
+    if (animal.tag == "cat") {
+      m_cats.push(animal);
+    }else if (animal.tag == "dog") {
+      m_dogs.push(animal);
+    }
+  }
+
+  Animal dequeAny(){
+    if (m_dogs.empty()) {
+      return dequeCat();
+    }else if (m_cats.empty()) {
+      return dequeDog();
+    }
+    Animal cat = m_cats.front();
+    Animal dog = m_dogs.front();
+    if (cat.isOlderthan(dog)) {
+      m_cats.pop();
+      return cat;
+    }else {
+      m_dogs.pop();
+      return dog;
+    }
+  }
+
+  Animal dequeDog(){
+    if (!m_dogs.empty()) {
+      Animal res = m_dogs.front();
+      m_dogs.pop();
+      return res;
+    }else {
+      throw exception();
+    }
+  }
+
+  Animal dequeCat() {
+    if (!m_cats.empty()) {
+      Animal res = m_cats.front();
+      m_cats.pop();
+      return res;
+    }else {
+      throw exception();
+    }
+  }
+
+private:
+ queue<Animal> m_cats;
+ queue<Animal> m_dogs;
+ unsigned int m_time_stamp = 1;
+};
+
+
 int main(){
-  AnimalShelter as;
+  AnimalShelter2 as;
   as.enqueue(Animal("cat", "c1"));
   as.enqueue(Animal("cat", "c2"));
   as.enqueue(Animal("dog", "d1"));

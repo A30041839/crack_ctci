@@ -85,3 +85,17 @@ void print_matrix(std::vector<std::vector<int> >& m){
     }
   }
 }
+
+template<class T>
+void print_stack(std::stack<T>& s){
+  std::vector<T> v;
+  while (!s.empty()){
+    T tmp = s.top();
+    v.push_back(tmp);
+    s.pop();
+    std::cout << tmp << ",";
+  }
+  std::cout << std::endl;
+  for (int i = v.size() - 1; i >= 0; --i)
+    s.push(v[i]);
+}
