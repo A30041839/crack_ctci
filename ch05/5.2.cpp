@@ -3,6 +3,9 @@
 using namespace std;
 
 string convert(double num){
+  if (num <= 0 or num >= 1) {
+    return "ERROR";
+  }
   string bits("0.");
   int k = 0;
   while (num != 0 and k < 30){
