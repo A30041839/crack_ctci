@@ -4,7 +4,8 @@
 
 using namespace std;
 
-void buildLists(Tnode<char>* root, vector<LinkedList<char> >& res){
+//breadth first search approach
+void buildLists1(Tnode<char>* root, vector<LinkedList<char> >& res){
   if (root == nullptr){
     return;
   }
@@ -27,11 +28,24 @@ void buildLists(Tnode<char>* root, vector<LinkedList<char> >& res){
   }
 }
 
+//depth first search approach
+void buildLists2(Tnode<char>* root, int dep, vector<LinkedList<char> >& res){
+  if (root == nullptr) {
+    return;
+  }
+  if (dep == res.size()) {
+    res.push_back(LinkedList<char>());
+  }
+  res[dep].insert_to_tail(root->val);
+  buildLists2(root->lchild, dep + 1, res);
+  buildLists2(root->rchild, dep + 1, res);
+}
+
 int main(){
   const char* str = "A(B(D,E(G,)),C(,F))";
   BinaryTree<char> bt(str);
   vector<LinkedList<char> > vec;
-  buildLists(bt.getRoot(), vec);
+  buildLists2(bt.getRoot(), 0, vec);
   for (int i = 0; i < (int)vec.size(); ++i){
     vec[i].print_list();
   }

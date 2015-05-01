@@ -1,4 +1,4 @@
-//find the successor node in a binary search tree.
+//find the in-order successor node in a binary search tree.
 Tnode* next(Tnode* node){
   if (!node) {
     return nullptr;

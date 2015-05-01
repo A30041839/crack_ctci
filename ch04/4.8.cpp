@@ -31,7 +31,9 @@ bool vectorEqual(vector<Tnode<char>* >& v1, vector<Tnode<char>* >& v2){
   return true;
 }
 
-bool isSubtree(vector<Tnode<char>* >&vec_pre1, Tnode<char>* smallTree){
+//cost too much memory given the large amounts of tree nodes, space complexity is
+//O(n + m), but time comlexity is slightly better: O(n + m).
+bool isSubtree1(vector<Tnode<char>* >&vec_pre1, Tnode<char>* smallTree){
   vector<Tnode<char>* > vec_pre2;
   preOrder(smallTree, vec_pre2);
   vector<Tnode<char>* > vec_in2;
@@ -59,6 +61,41 @@ bool isSubtree(vector<Tnode<char>* >&vec_pre1, Tnode<char>* smallTree){
   return false;
 }
 
+//time complexity: O(n + km)
+//space complexity: O(log(n) + log(m))
+bool _match_tree(Tnode<char>* t1, Tnode<char>* t2) {
+  if (t1 == nullptr or t2 == nullptr) {
+    return t1 == t2;
+  }
+  if (t1->val != t2->val) {
+    return false;
+  }
+  return _match_tree(t1->lchild, t2->lchild) and _match_tree(t1->rchild, t2->rchild);
+}
+
+bool _isSubtree2(Tnode<char>* t1, Tnode<char>* t2) {
+  if (t1 == nullptr) {
+    return false;
+  }
+  if (t1->val == t2->val) {
+    if (_match_tree(t1, t2)) {
+      return true;
+    }
+  }
+  return _isSubtree2(t1->lchild, t2) || _isSubtree2(t1->rchild, t2);
+}
+
+bool isSubtree2(Tnode<char>* t1, Tnode<char>* t2) {
+  if (t2 == nullptr) {
+    return true;
+  }
+  if (t1 == nullptr) {
+    return false;
+  }
+  return _isSubtree2(t1, t2);
+}
+
+
 int main(){
   vector<Tnode<char>* > vec;
   const char* s1 = "5(3(1,4),8(6,9))";
@@ -66,7 +103,7 @@ int main(){
   BinaryTree<char> largeTree(s1);
   BinaryTree<char> smallTree(s2);
   preOrder(largeTree.getRoot(), vec);
-  if (isSubtree(vec, smallTree.getRoot())){
+  if (isSubtree2(largeTree.getRoot(), smallTree.getRoot())){
     cout << "the small tree is subtree of large tree!" << endl;
   }else{
     cout << "the small tree is not subtree of large tree!" << endl;

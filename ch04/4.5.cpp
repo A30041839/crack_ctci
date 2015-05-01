@@ -3,16 +3,41 @@
 
 using namespace std;
 
-template<class T>
-bool checkBST(Tnode<T>* root){
-  if (root == NULL){
+bool _checkBST1(Tnode<int>* root, int curmin, int curmax){
+  if (root == nullptr) {
     return true;
   }
-  bool res1 = checkBST(root->lchild);
-  bool res2 = checkBST(root->rchild);
-  return res1 and res2
-    and (!root->lchild or root->lchild->val < root->val)
-    and (!root->rchild or root->rchild->val > root->val);
+  if (root->val < curmin or root->val > curmax) {
+    return false;
+  }
+  return _checkBST1(root->lchild, curmin, root->val - 1) and
+    _checkBST1(root->rchild, root->val + 1, curmax);
+}
+
+bool checkBST1(Tnode<int>* root){
+  return _checkBST1(root, INT_MIN, INT_MAX);
+}
+
+bool _checkBST2(Tnode<int>* root, int& prev){
+  if (root == nullptr) {
+    return true;
+  }
+  if (!_checkBST2(root->lchild, prev)) {
+    return false;
+  }
+  if (prev >= root->val) {
+    return false;
+  }
+  prev = root->val;
+  if (!_checkBST2(root->rchild, prev)) {
+    return false;
+  }
+  return true;
+}
+
+bool checkBST2(Tnode<int>* root){
+  int prev = INT_MIN;
+  return _checkBST2(root, prev);
 }
 
 int main(){
@@ -22,7 +47,7 @@ int main(){
   BinaryTree<int> bt2(str2);
 
   Tnode<int>* root = bt1.getRoot();
-  if (checkBST<int>(root)){
+  if (checkBST1(root)){
     cout << "BinaryTree is a BST!" << endl;
   }else{
     cout << "BinaryTree is not a BST!" << endl;
