@@ -1,5 +1,4 @@
-#include <iostream>
-#include <mutex>
+#include "../ctci.h"
 
 class singleton{
 private:
@@ -29,6 +28,3 @@ int main(){
   std::cout << a << "," << b << std::endl;
   return 0;
 }
-
-    
-

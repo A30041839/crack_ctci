@@ -1,6 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <cmath>
+#include "../ctci.h"
 
 using namespace std;
 

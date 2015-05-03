@@ -1,5 +1,5 @@
-#include <iostream>
-#include <vector>
+#include "../ctci.h"
+
 using namespace std;
 
 int numofways1(int n){

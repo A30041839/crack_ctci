@@ -1,19 +1,6 @@
-#include <iostream>
-#include <vector>
+#include "../ctci.h"
 
 using namespace std;
-
-int countPossiblewayRecursive(int n){
-  if (n < 0){
-    return 0;
-  }
-  if (n == 0){
-    return 1;
-  }
-  return countPossiblewayRecursive(n - 1)
-       + countPossiblewayRecursive(n - 2)
-       + countPossiblewayRecursive(n - 3);
-}
 
 int countPossiblewayDP(int n){
   if (n < 0){
@@ -26,12 +13,11 @@ int countPossiblewayDP(int n){
   for (int k = 3; k <= n; ++k){
    dp[k] = dp[k - 1] + dp[k - 2] + dp[k - 3];
   }
-  return dp[n]; 
+  return dp[n];
 }
 
 int main(){
   int n = 10;
-  cout << countPossiblewayRecursive(n) << endl;
   cout << countPossiblewayDP(n) << endl;
   return 0;
-}  
+}

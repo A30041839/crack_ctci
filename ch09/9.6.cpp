@@ -1,5 +1,5 @@
-#include <iostream>
-#include <vector>
+#include "../ctci.h"
+
 using namespace std;
 
 void printParentheses(int npair, int k, int nleft, vector<char>& v){
