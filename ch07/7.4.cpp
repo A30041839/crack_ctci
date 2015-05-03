@@ -1,5 +1,4 @@
-#include <iostream>
-#include <cmath>
+#include "../ctci.h"
 
 using namespace std;
 

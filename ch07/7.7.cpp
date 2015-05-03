@@ -1,40 +1,42 @@
-#include <iostream>
-#include <vector>
+#include "../ctci.h"
 
 using namespace std;
 
-int findKth(int k, vector<int>& vec){
-  if (k <= vec.size()){
-    return vec[k - 1];
+int findKth(int k){
+  if (k < 0) {
+    return 0;
   }
-  int cnt = k - vec.size();
-  while (cnt--){
-    int min = INT_MAX;
-    for (int i = 0; i < vec.size(); ++i){
-      if (vec[i] * 7 > vec.back()){
-        if (vec[i] * 3 > vec.back() && vec[i] * 3 < min){
-          min = vec[i] * 3;
-          break;
-        }else if (vec[i] * 5 > vec.back() && vec[i] * 5 < min){
-          min = vec[i] * 5;
-        }else if (vec[i] * 7 < min){
-          min = vec[i] * 7;
-        }
-        if (vec[i] * 3 > min){
-          break;
-        }
-      }
+  queue<int> q3, q5, q7;
+  q3.push(3);
+  q5.push(5);
+  q7.push(7);
+  int res = 1;
+  for (int i = 0; i < k; ++i) {
+    int v1 = q3.empty() ? INT_MAX : q3.front();
+    int v5 = q5.empty() ? INT_MAX : q5.front();
+    int v7 = q7.empty() ? INT_MAX : q7.front();
+    res = min(v1, min(v5, v7));
+    if (res == v1) {
+      q3.push(3 * res);
+      q5.push(5 * res);
+      q3.pop();
+    }else if (res == v5) {
+      q5.push(5 * res);
+      q5.pop();
+    }else {
+      q7.pop();
     }
-    vec.push_back(min);
+    q7.push(7 * res);
   }
-  return vec.back();
+  return res;
 }
 
 int main(){
-  vector<int> vec = {3 * 5 * 7};
-  cout << findKth(1, vec) << endl;;
-  cout << findKth(5, vec) << endl;
-  cout << findKth(10, vec) << endl;
-  cout << findKth(20, vec) << endl;
+  int k = 1;
+  cout << findKth(k) << endl;
+  k = 3;
+  cout << findKth(k) << endl;
+  k = 6;
+  cout << findKth(k) << endl;
   return 0;
 }
