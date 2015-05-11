@@ -2,29 +2,24 @@
 
 using namespace std;
 
-void print_screen(vector<vector<char> >& s){
-  for (int i = 0; i < s.size(); ++i){
-    for (int j = 0; j < s.size(); ++j){
-      cout << s[i][j];
-    }
-    cout << endl;
+void _paint_fill(char ncolor, char ocolor, int x, int y, vector<vector<char> >& screen){
+  if (x < 0 or x >= screen[0].size() or y < 0 or y >= screen.size()) {
+    return;
+  }
+  if (screen[y][x] == ocolor) {
+    screen[y][x] = ncolor;
+    _paint_fill(ncolor, ocolor, x + 1, y, screen);
+    _paint_fill(ncolor, ocolor, x, y + 1, screen);
+    _paint_fill(ncolor, ocolor, x - 1, y, screen);
+    _paint_fill(ncolor, ocolor, x, y - 1, screen);
   }
 }
 
-void paint_fill(char color, int x, int y, vector<vector<char> >& screen){
-  screen[x][y] = color;
-  if (screen[x - 1][y] != color){
-    paint_fill(color, x - 1, y, screen);
+void paint_fill(char ncolor, int x, int y, vector<vector<char> >& screen) {
+  if (screen[y][x] == ncolor) {
+    return;
   }
-  if (screen[x + 1][y] != color){
-    paint_fill(color, x + 1, y, screen);
-  }
-  if (screen[x][y - 1] != color){
-    paint_fill(color, x, y - 1, screen);
-  }
-  if (screen[x][y + 1] != color){
-    paint_fill(color, x, y + 1, screen);
-  }
+  _paint_fill(ncolor, screen[y][x], x, y, screen);
 }
 
 int main(){
@@ -35,9 +30,9 @@ int main(){
     screen[6][i] = '*';
     screen[i][6] = '*';
   }
-  print_screen(screen);
-  paint_fill('*', 4, 4, screen);
+  print_matrix(screen);
+  paint_fill('x', 3, 3, screen);
   cout << endl;
-  print_screen(screen);
+  print_matrix(screen);
   return 0;
 }

@@ -2,29 +2,32 @@
 
 using namespace std;
 
-void printParentheses(int npair, int k, int nleft, vector<char>& v){
-  if (npair <= 0) return;
-  if (v.size() == 2 * npair){
-    for (int i = 0; i < v.size(); ++i){
-      cout << v[i];
-    }
-    cout << endl;
+void _printParentheses(int pair, int left, int left_unbalanced, string str,
+  vector<string>& res){
+  if (str.size() == pair * 2 and !str.empty()) {
+    res.push_back(str);
     return;
   }
-  if (k > 0){
-    v.push_back(')');
-    printParentheses(npair, k - 1, nleft, v);
-    v.pop_back();
+  if (left < pair) {
+    str.push_back('(');
+    _printParentheses(pair, left + 1, left_unbalanced + 1, str, res);
+    str.pop_back();
   }
-  if (nleft < npair){
-    v.push_back('(');
-    printParentheses(npair, k + 1, nleft + 1, v);
-    v.pop_back();
+  if (left_unbalanced > 0) {
+    str.push_back(')');
+    _printParentheses(pair, left, left_unbalanced - 1, str, res);
+    str.pop_back();
   }
 }
 
+vector<string> printParentheses(int n) {
+  vector<string> res;
+  _printParentheses(n, 0, 0, "", res);
+  return res;
+}
+
 int main(){
-  vector<char> v;
-  printParentheses(3, 0, 0, v);
+  vector<string> res = printParentheses(3);
+  print_array(res);
   return 0;
 }

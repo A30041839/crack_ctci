@@ -74,11 +74,20 @@ void print_array(int nums[], int n){
   std::cout << std::endl;
 }
 
-void print_matrix(std::vector<std::vector<int> >& m){
+template<class T>
+void print_array(std::vector<T> &v) {
+  for (T& tmp : v) {
+    std::cout << tmp << ",";
+  }
+  std::cout << std::endl;
+}
+
+template<class T>
+void print_matrix(std::vector<std::vector<T> >& m){
   for (size_t i = 0; i < m.size(); ++i){
     for (size_t j = 0; j < m[0].size(); ++j){
       if (j != m[0].size() - 1) {
-        std::cout << m[i][j] << ",";
+        std::cout << m[i][j] << " ";
       }
       else {
         std::cout << m[i][j] << std::endl;

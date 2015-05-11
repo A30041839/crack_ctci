@@ -2,50 +2,41 @@
 
 using namespace std;
 
-void print_grid(vector<vector<char> >& s){
-  for (int i = 0; i < s.size(); ++i){
-    for (int j = 0; j < s.size(); ++j){
-      cout << s[i][j];
-    }
-    cout << endl;
-  }
-}
+const int GRID_SIZE = 8;
 
-bool place(vector<int>& rows, int row, int col){
+bool checkValid(vector<int>& rows, int row, int col){
   for (int i = 0; i < row; ++i){
-    if (abs(i - row) == abs(rows[i] - col)){
+    if (abs(i - row) == abs(rows[i] - col) or rows[i] == col){
       return false;
     }
   }
   return true;
 }
 
-void eightQueens(vector<vector<char> >& grid, int row, vector<int>& rows, vector<int>& cols, int& cnt){
-  if (row == 8){
-    cout << "the " << cnt << " solution:" << endl;
-    print_grid(grid);
-    cnt++;
+void _eightQueens(vector<vector<char> >& grid, int row, vector<int>& rows, int& cnt){
+  if (row == GRID_SIZE){
+    cout << "the " << ++cnt << " solution:" << endl;
+    print_matrix(grid);
     return;
   }
-  for (int col = 0; col < 8; ++col){
-    if (cols[col] == 0){
-      if (place(rows, row, col)){
-        cols[col] = 1;
-        rows[row] = col;
-        grid[row][col] = 'x';
-        eightQueens(grid, row + 1, rows, cols, cnt);
-        cols[col] = 0;
-        grid[row][col] = '.';
-      }
+  for (int col = 0; col < GRID_SIZE; ++col){
+    if (checkValid(rows, row, col)){
+      rows[row] = col;
+      grid[row][col] = 'x';
+      _eightQueens(grid, row + 1, rows, cnt);
+      grid[row][col] = '.';
     }
   }
 }
 
+void eightQueens(vector<vector<char> >& grid) {
+  int cnt = 0;
+  vector<int> rows(GRID_SIZE, 0);
+  _eightQueens(grid, 0, rows, cnt);
+}
+
 int main(){
   vector<vector<char> > grid(8, vector<char>(8, '.'));
-  vector<int> cols(8, 0);
-  vector<int> rows(8, 0);
-  int cnt = 1;
-  eightQueens(grid, 0, rows, cols, cnt);
+  eightQueens(grid);
   return 0;
 }
