@@ -1,57 +1,38 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include "../ctci.h"
 
 using namespace std;
 
 struct box{
   explicit box(int w, int h, int l, int id)
-    : width(w), hight(h), length(l), index(id) {}
+    : width(w), height(h), length(l), index(id) {}
   int width;
-  int hight;
+  int height;
   int length;
   int index;
 
   bool operator<(const box& o) const{
-    return width < o.width and hight < o.hight and length < o.length;
+    return width < o.width and height < o.height and length < o.length;
   }
   void to_string(){
-    printf("%d: %d, %d, %d\n", index, width, hight, length);
+    printf("%d: %d, %d, %d\n", index, width, height, length);
   }
 };
 
-int buildHighestprev(vector<box>& boxes, vector<box>& res){
+int build_highest_stack_dp(vector<box>& boxes) {
   sort(boxes.begin(), boxes.end());
-  //for (box b : boxes){
-  //  b.to_string();
-  //}
-  vector<int> prev(boxes.size(), 0);
-  vector<int> dp(boxes.size(), 0);
-  int maxHeight = 0;
-  int i;
-  for (i = boxes.size() - 1; i >= 0; --i){
-    int prevbox = i;
-    for (int j = i + 1; j < boxes.size(); ++j){
-      if (boxes[i] < boxes[j] and dp[i] < dp[j]){
-        dp[i] = dp[j];
-        prevbox = j;
+  int n = boxes.size();
+  vector<int> dp(n, 0);
+  dp[0] = boxes[0].height;
+  int res = dp[0];
+  for (int i = 1; i < n; ++i) {
+    for (int j = 0; j < i; ++j) {
+      if (boxes[j] < boxes[i]) {
+        dp[i] = max(dp[i], dp[j] + boxes[i].height);
       }
     }
-    dp[i] += boxes[i].hight;
-    prev[i] = prevbox;
-    maxHeight = max(maxHeight, dp[i]);
+    res = max(res, dp[i]);
   }
-  for (i = 0; i < dp.size(); ++i){
-    if (dp[i] == maxHeight){
-      break;
-    }
-  }
-  while(prev[i] != i){
-    res.push_back(boxes[i]);
-    i = prev[i];
-  }
-  res.push_back(boxes[i]);
-  return maxHeight;
+  return res;
 }
 
 int main(){
@@ -61,11 +42,6 @@ int main(){
   boxes.push_back(box(3, 8, 2, 3));
   boxes.push_back(box(3, 6, 4, 4));
   boxes.push_back(box(4, 9, 10, 5));
-  
-  vector<box> res;
-  cout << "max height is " << buildHighestprev(boxes, res) << endl;
-  for (box b : res){
-    b.to_string();
-  }
+  cout << "max height is " << build_highest_stack_dp(boxes) << endl;
   return 0;
 }
