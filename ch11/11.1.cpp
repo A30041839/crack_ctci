@@ -1,5 +1,4 @@
-#include <iostream>
-#include <vector>
+#include "../ctci.h"
 
 using namespace std;
 
@@ -23,9 +22,6 @@ int main(){
   vector<int> a = {1, 3, 7, 8, 10, 11, 15, 0, 0, 0, 0};
   vector<int> b = {-1, 2, 3, 9};
   merge(a, b, 7);
-  for (int x : a){
-    cout << x << ",";
-  }
-  cout << endl;
+  print_array(a);
   return 0;
 }

@@ -1,5 +1,4 @@
-#include <iostream>
-#include <vector>
+#include "../ctci.h"
 
 using namespace std;
 
@@ -12,12 +11,14 @@ int find(vector<int>& vec, int n){
       return mid;
     }
     if (vec[mid] < vec[low]){
-      if (vec[high] < n or n < vec[mid]){
+      //the right half is ordered
+      if (n > vec[high] or n < vec[mid]){
         high = mid - 1;
       }else{
         low = mid + 1;
       }
     }else{
+      //the left half is ordered
       if (n < vec[low] or n > vec[mid]){
         low = mid + 1;
       }else{

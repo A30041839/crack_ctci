@@ -1,52 +1,36 @@
-#include <iostream>
-#include <vector>
-#include <string>
+#include "../ctci.h"
 
 using namespace std;
 
-int find(vector<string>& vec, string s){
+int find(vector<string>& vec, string str){
   int low = 0;
   int high = vec.size() - 1;
   while (low <= high){
     int mid = (low + high) / 2;
-    if (!vec[mid].empty()){
-      if (vec[mid] == s){
-        return mid;
-      }
-      if (vec[mid] < s){
-        low = mid + 1;
-      }else{
-        high = mid - 1;
-      }
-    }else{
-      int i = mid - 1;
-      int j = mid + 1;
-      bool flag = true;
-      while (i >= low and j <= high){
-        if (!vec[i].empty()){
-          if (vec[i] == s){
-            return i;
-          }else if (vec[i] > s){
-            high = i - 1;
-            flag = false;
-            break;
-          }
+    if (vec[mid].empty()) {
+      int left = mid - 1, right = mid + 1;
+      while (true) {
+        if (left < low and right > high) {
+          return -1;
         }
-        if (!vec[j].empty()){
-          if (vec[j] == s){
-            return j;
-          }else if (vec[j] < s){
-            low = j + 1;
-            flag = false;
-            break;
-          }
+        if (left >= low and !vec[left].empty()) {
+          mid = left;
+          break;
         }
-        i--;
-        j++;
+        if (right <= high and !vec[right].empty()) {
+          mid = right;
+          break;
+        }
+        left--;
+        right++;
       }
-      if (flag){
-        return -1;
-      }
+    }
+    if (vec[mid] == str) {
+      return mid;
+    }else if (vec[mid] < str) {
+      low = mid + 1;
+    }else {
+      high = mid - 1;
     }
   }
   return -1;
