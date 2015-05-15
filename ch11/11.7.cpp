@@ -1,6 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include "../ctci.h"
 
 using namespace std;
 
@@ -18,40 +16,26 @@ struct person{
   int w;
 };
 
-int maxNumofPerson(vector<person>& persons, vector<person>& resvec){
+int maxNumofPerson1(vector<person>& persons){
+  if (persons.empty()) {
+    return 0;
+  }
   sort(persons.begin(), persons.end());
-  vector<int> dp(persons.size(), 0);
-  vector<int> prevs(persons.size(), 0);
-  int res = -1;
-  for(int i = persons.size() - 1; i >= 0; --i){
-    int prev = i;
-    for (int j = i + 1; j < persons.size(); ++j){
-      if (persons[i] < persons[j]){
-        if (dp[j] > dp[i]){
-          dp[i] = dp[j];
-          prev = j;
-        }
+  vector<int> dp(persons.size(), 1);
+  int res = 1;
+  for (int i = 1; i < persons.size(); ++i) {
+    for (int j = 0; j < i; ++j) {
+      if (persons[j] < persons[i]) {
+        dp[i] = max(dp[i], dp[j] + 1);
       }
     }
-    dp[i] += 1;
-    prevs[i] = prev;
-    res = max(dp[i], res);
+    res = max(res, dp[i]);
   }
-  int k = 0;
-  while(dp[k] != res){
-    k++;
-  }
-  while(prevs[k] != k){
-    resvec.push_back(persons[k]);
-    k = prevs[k];
-  }
-  resvec.push_back(persons[k]);
   return res;
 }
 
 int main(){
   vector<person> persons;
-  vector<person> resvec;
   persons.push_back(person(65, 100));
   persons.push_back(person(70, 150));
   persons.push_back(person(56, 90));
@@ -60,10 +44,7 @@ int main(){
   persons.push_back(person(68, 110));
   persons.push_back(person(60, 101));
   persons.push_back(person(50, 70));
-  cout << "Max number of person:" << maxNumofPerson(persons, resvec) << endl;
-  for (int i = 0; i < resvec.size(); ++i){
-    resvec[i].to_string();
-  }
+  cout << "Max number of person:" << maxNumofPerson1(persons) << endl;
 
   return 0;
 }
