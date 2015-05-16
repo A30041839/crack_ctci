@@ -1,36 +1,31 @@
-#include <iostream>
-#include <stdexcept>
+#include "../ctci.h"
 
 using namespace std;
 
 struct Node{
   struct Node* lchild;
   struct Node* rchild;
-  
-  void to_string(){
-    printf("%d,%d\n", lchild, rchild);
-  }
 };
 
-void cloneNode(Node* ptr, Node*& clonePtr){
-  if (ptr == NULL){
-    throw exception();
+Node* clone(Node* cur, map<Node*, Node*>& mp){
+  if (cur == nullptr) {
+    return nullptr;
   }
-  if (clonePtr){
-    delete clonePtr;
+  if (mp.count(cur) > 0) {
+    return mp[cur];
   }
-  clonePtr = new Node();
-  clonePtr->lchild = ptr->lchild;
-  clonePtr->rchild = ptr->rchild;
+  Node* node_cpy = new Node();
+  mp[cur] = node_cpy;
+  node_cpy->lchild = clone(cur->lchild, mp);
+  node_cpy->rchild = clone(cur->rchild, mp);
+  return node_cpy;
 }
 
 int main(){
   Node* ptr = new Node();
-  ptr->lchild = ptr;
-  ptr->rchild = ptr;
-  Node* clone = NULL;
-  cloneNode(ptr, clone);
-  ptr->to_string();
-  clone->to_string();
+  ptr->lchild = new Node();
+  ptr->rchild = new Node();
+  map<Node*, Node*> mp;
+  Node* clone_node = clone(ptr, mp);
   return 0;
 }

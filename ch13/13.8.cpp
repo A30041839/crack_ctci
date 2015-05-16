@@ -1,7 +1,6 @@
 /*A thread-safe smart pointer
  */
-#include <iostream>
-#include <mutex>
+#include "../ctci.h"
 
 using namespace std;
 
@@ -16,7 +15,7 @@ public:
     count++;
     mtx.unlock();
   }
-  
+
   int decrease(){
     mtx.lock();
     count--;
@@ -24,7 +23,7 @@ public:
     return count;
   }
 };
-  
+
 template<class T>
 class SmartPointer{
 private:
@@ -41,7 +40,7 @@ public:
   SmartPointer(const SmartPointer& sp): pointer(sp.pointer), rc(sp.rc){
      rc->increase();
   }
-  
+
   SmartPointer& operator=(const SmartPointer& sp){
     if (this != &sp){
       if (rc != NULL and rc->decrease() == 0){
@@ -54,9 +53,11 @@ public:
     }
     return *this;
   }
+
   T* operator->() const{
     return pointer;
   }
+
   T& operator*() const{
     return *pointer;
   }
@@ -87,6 +88,5 @@ int main(){
     sp3->foo();
   }
   sp1->foo();
-    
   return 0;
 }
