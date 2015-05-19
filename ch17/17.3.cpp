@@ -1,37 +1,18 @@
-#include <iostream>
+#include "../ctci.h"
 
 using namespace std;
 
-int trailzeroCount1(int n){
-  long f = 1;
-  int cnt = 0;
-  for (int i = n; i >= 1; --i){
-    f *= i;
-    if (f % 10 == 0){
-      cnt++;
-      f /= 10;
-    }
+//iteratively count the # of multiples of 5, 25, 125...
+int factorialZero(int n) {
+  int res = 0;
+  for (int i = 5; n / i > 0; i *= 5) {
+    res += n / i;
   }
-  return cnt;
-}
-
-int trailzeroCount2(int n){
-  int lastDigit = 1;
-  int count = 0;
-  for (int i = 1; i <= n; ++i){
-    lastDigit *= i;
-    if (lastDigit % 10 == 0){
-      count++;
-      lastDigit /= 10;
-    }else{
-      lastDigit %= 10;
-    }
-  }
-  return count;
+  return res;
 }
 
 int main(){
-  int n = 10;
-  cout << trailzeroCount2(n) << endl;
+  int n = 30;
+  cout << factorialZero(n) << endl;
   return 0;
 }

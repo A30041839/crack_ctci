@@ -2,12 +2,24 @@
 
 using namespace std;
 
+int flip(int x) {
+  return x ^ 1;
+}
+
+int sign(int x) {
+  return flip((x >> 31) & 1);
+}
+
 int max(int a, int b){
-  int t = (unsigned int)((a - b) & (1 << 31)) >> 31;
-  int arr[2];
-  arr[0] = a;
-  arr[1] = b;
-  return arr[t];
+  int c = a - b;
+  int sa = sign(a);
+  int sb = sign(b);
+  int sc = sign(c);
+  int use_sa = sa ^ sb;
+  int use_sc = flip(use_sa);
+  int k = use_sa * sa + use_sc * sc;
+  int m = flip(k);
+  return a *  k + b * m;
 }
 
 int main(){

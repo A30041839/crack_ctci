@@ -1,86 +1,52 @@
-#include <iostream>
+#include "../ctci.h"
 
 using namespace std;
 
-template<class T>
-struct Tnode{
-  Tnode* lchild;
-  Tnode* rchild;
-  T val;
-  explicit Tnode(T _val): lchild(0), rchild(0), val(_val) {}
-};
-
-typedef Tnode<int>* pointer;
-
-pointer getPrevious(pointer node){
-  node = node->lchild;
-  while (node and node->rchild){
-    node = node->rchild;
+TreeNode* convertBST2list(TreeNode* root) {
+  if (root == nullptr) {
+    return nullptr;
   }
-  return node;
+  TreeNode* left = nullptr;
+  if (root->left) {
+    left = convertBST2list(root->left);
+    TreeNode* ptr = left;
+    while (ptr->right) {
+      ptr = ptr->right;
+    }
+    ptr->right = root;
+    root->left = ptr;
+  }
+  if (root->right) {
+    TreeNode* right = convertBST2list(root->right);
+    root->right = right;
+    right->left = root;
+  }
+  return left ? left : root;
 }
 
-pointer getNext(pointer node){
-  node = node->rchild;
-  while(node and node->lchild){
-    node = node->lchild;
-  }
-  return node;
-}
-
-pointer bst2dlist(pointer root){
-  if (root->lchild){
-    bst2dlist(root->lchild);
-  }
-  pointer p = getPrevious(root);
-  root->lchild = p;
-  if (p){
-    p->rchild = root;
-  }
-  if (root->rchild){
-    bst2dlist(root->rchild);
-  }
-  p = getNext(root);
-  root->rchild = p;
-  if (p){
-    p->lchild = root;
-  }
-
-  while(root->lchild){
-    root = root->lchild;
-  }
-  return root;
-}
 
 int main(){
-  Tnode<int>* p1 = new Tnode<int>(1);
-  Tnode<int>* p2 = new Tnode<int>(2);
-  Tnode<int>* p3 = new Tnode<int>(3);
-  Tnode<int>* p4 = new Tnode<int>(4);
-  Tnode<int>* p5 = new Tnode<int>(5);
-  Tnode<int>* p6 = new Tnode<int>(6);
-  Tnode<int>* p7 = new Tnode<int>(7);
-  p2->lchild = p1;
-  p2->rchild = p3;
-  p6->lchild = p5;
-  p6->rchild = p7;
-  p4->lchild = p2;
-  p4->rchild = p6;
+  TreeNode* p1 = new TreeNode(1);
+  TreeNode* p2 = new TreeNode(2);
+  TreeNode* p3 = new TreeNode(3);
+  TreeNode* p4 = new TreeNode(4);
+  TreeNode* p5 = new TreeNode(5);
+  TreeNode* p6 = new TreeNode(6);
+  TreeNode* p7 = new TreeNode(7);
+  p2->left = p1;
+  p2->right = p3;
+  p6->left = p5;
+  p6->right = p7;
+  p4->left = p2;
+  p4->right = p6;
 
-  Tnode<int>* head = bst2dlist(p4);
-  while (head != NULL){
+  TreeNode* head = convertBST2list(p4);
+
+  while (head != nullptr){
     cout << head->val << ",";
-    head = head->rchild;
+    head = head->right;
   }
   cout << endl;
-
-  delete p1;
-  delete p2;
-  delete p3;
-  delete p4;
-  delete p5;
-  delete p6;
-  delete p7;
   return 0;
 }
 

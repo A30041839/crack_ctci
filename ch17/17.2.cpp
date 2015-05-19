@@ -1,40 +1,67 @@
-#include <iostream>
-#include <vector>
+#include "../ctci.h"
 
 using namespace std;
 
-char testWinner(vector<vector<char> >& grid){
-  int i, j;
-  for (i = 0; i < 3; ++i){
-    bool f1, f2;
-    f1 = f2 = true;
-    for (j = 1; j < 3; ++j){
-      if (grid[i][j] != grid[i][j - 1]){
-        f1 = false;
+enum class Piece {
+  Empty,
+  White,
+  Black
+};
+
+Piece checkWinner(vector<vector<Piece> >& board) {
+  int n = board.size();
+  int row, col;
+  //check rows
+  for (row = 0; row < n; ++row) {
+    if (board[row][0] != Piece::Empty) {
+      for (col = 1; col < n; ++col) {
+        if (board[row][col] != board[row][col - 1]) {
+          break;
+        }
       }
-      if (grid[j][i] != grid[j - 1][i]){
-        f2 = false;
+      if (col == n) {
+        return board[row][0];
       }
     }
-    if (f1) return grid[i][0];
-    if (f2) return grid[0][i];
   }
-  if (grid[0][0] == grid[1][1] and grid[1][1] == grid[2][2]) return grid[0][0];
-  if (grid[0][2] == grid[1][1] and grid[1][1] == grid[2][0]) return grid[0][2];
-  return '#';
+  //check colums
+  for (col = 0; col < n; ++col) {
+    if (board[0][col] != Piece::Empty) {
+      for (row = 1; row < n; ++row) {
+        if (board[row][col] != board[row - 1][col]) {
+          break;
+        }
+      }
+      if (row == n) {
+        return board[0][col];
+      }
+    }
+  }
+  //check diagnal
+  if (board[0][0] != Piece::Empty) {
+    for (row = 1; row < n; ++row) {
+      if (board[row][row] != board[row - 1][row - 1]) {
+        break;
+      }
+    }
+    if (row == n) {
+      return board[0][0];
+    }
+  }
+  //check counter diagnal
+  if (board[0][n - 1] != Piece::Empty) {
+    for (row = 1; row < n; ++row) {
+      if (board[row][n - 1 - row] != board[row - 1][n - row]) {
+        break;
+      }
+    }
+    if (row == n) {
+      return board[0][n - 1];
+    }
+  }
+  return Piece::Empty;
 }
 
 int main(){
-  vector<vector<char> > grid(3, vector<char>(3, ' '));
-  for(int i = 0; i < 3; ++i){
-    for (int j = 0; j < 3; ++j){
-      grid[i][j] = (i == j ? 'x' : 'o');
-    }
-  }
-  char res = testWinner(grid);
-  if (res != '#'){
-    cout << "winner is " << res << endl;
-  }else{
-    cout << "no one wins." << endl;
-  }
+  return 0;
 }

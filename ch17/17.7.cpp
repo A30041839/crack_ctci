@@ -1,108 +1,61 @@
-#include <iostream>
-#include <string>
-#include <cmath>
-#include <map>
+#include "../ctci.h"
 
 using namespace std;
 
-map<long, string> mp;
+vector<string> ones = {"one", "two", "three", "four", "five", "six", "seven",
+                       "eight", "nine"};
+vector<string> teens = {"eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
+                        "seventeen", "eighteen", "nineteen"};
+vector<string> tens = {"ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy",
+                       "eighty", "ninty"};
+vector<string> bigs = {"", "thousand", "million", "billion"};
 
-void init(){
-  mp[10000000000] = "billion";
-  mp[1000000] = "million";
-  mp[1000] = "thousand";
-  mp[100] = "hundred";
-  mp[90] = "ninety";
-  mp[80] = "eighty";
-  mp[70] = "seventy";
-  mp[60] = "sixty";
-  mp[50] = "fifty";
-  mp[40] = "forty";
-  mp[30] = "thirty";
-  mp[20] = "twenty";
-  mp[19] = "nineteen";
-  mp[18] = "eighteen";
-  mp[17] = "seventeen";
-  mp[16] = "sixteen";
-  mp[15] = "fifteen";
-  mp[14] = "fourteen";
-  mp[13] = "thirteen";
-  mp[12] = "twelve";
-  mp[11] = "eleven";
-  mp[10] = "ten";
-  mp[9] = "nine";
-  mp[8] = "eight";
-  mp[7] = "seven";
-  mp[6] = "six";
-  mp[5] = "five";
-  mp[4] = "four";
-  mp[3] = "three";
-  mp[2] = "two";
-  mp[1] = "one";
-  mp[0] = "zero"; 
-}
-
-void _engParaphrase(long n, bool &f, string& res){
-  if (n / 10000000000 > 0){
-    res += mp[n / 10000000000] + " " + mp[10000000000] + " ";
-    if (f){
-      res += ",";
-      f = false;
-    }
+string numtoString100(long num) {
+  string res;
+  if (num / 100 > 0) {
+    res += ones[num / 100 - 1] + " hundred ";
+    num %= 100;
   }
-  n %= 10000000000;
-  if (n / 1000000 > 0){
-    _engParaphrase(n / 1000000, f, res);
-    res += " " + mp[1000000] + " ";
-    if (f){
-      res += ",";
-      f = false;
-    } 
+  if (num >= 11 and num <= 19) {
+    res += teens[num - 11] + " ";
+    num = 0;
+  }else if (num == 10 or num >= 20) {
+    res += tens[num / 10 - 1] + " ";
+    num %= 10;
   }
-  n %= 1000000;
-  if (n / 1000 > 0){
-    _engParaphrase(n / 1000, f, res);
-    res += " " + mp[1000] + " ";
-    if (f){
-      res += ",";
-      f = false;
-    }
+  if (num > 0) {
+    res += ones[num - 1] + " ";
   }
-  n %= 1000;
-  if (n / 100 > 0){
-    res += mp[n / 100] + " " + mp[100] + " ";
-  }
-  n %= 100;
-  if (n > 0 and n < 20){
-    res += mp[n];
-    return;
-  }
-  if (n / 10 > 0){
-    res += mp[n - n % 10] + " ";
-  }
-  n %= 10;
-  if (n > 0 or (n == 0 and res == "")){
-    res += mp[n];
-  }
-}
-
-string engParaphrase(long n){
-  string res = "";
-  bool f = true;
-  _engParaphrase(n, f, res);
   return res;
-} 
+}
+
+string numtoString(long num) {
+  if (num == 0) {
+    return "zero";
+  }else if (num < 0) {
+    return "negative " + numtoString(-1 * num);
+  }
+  string res;
+  int i = 0;
+  while (num > 0) {
+    if (num % 1000 > 0) {
+      res = numtoString100(num % 1000) + bigs[i++] + " " + res;
+    }
+    num /= 1000;
+  }
+  return res;
+}
 
 int main(){
- init();
- cout << engParaphrase(0) << endl;
- cout << engParaphrase(1) << endl;
- cout << engParaphrase(12) << endl;
- cout << engParaphrase(634) << endl;
- cout << engParaphrase(1239) << endl;
- cout << engParaphrase(62981) << endl;
- cout << engParaphrase(490091) << endl;
- cout << engParaphrase(23900123) << endl;
- cout << engParaphrase(42912300321) << endl;
+ cout << numtoString(0) << endl;
+ cout << numtoString(1) << endl;
+ cout << numtoString(12) << endl;
+ cout << numtoString(110) << endl;
+ cout << numtoString(634) << endl;
+ cout << numtoString(1239) << endl;
+ cout << numtoString(62981) << endl;
+ cout << numtoString(490091) << endl;
+ cout << numtoString(23900123) << endl;
+ cout << numtoString(42912300321) << endl;
  return 0;
 }
