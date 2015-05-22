@@ -3,31 +3,12 @@
 using namespace std;
 
 int add(int a, int b){
-  int sum = 0;
-  int c = 0;
-  for (int i = 0; i < 32; ++i){
-    int mask = 1 << i;
-    int d1 = mask & a;
-    int d2 = mask & b;
-    if (d1 ^ d2){
-      if (c == 0){
-        sum |= mask;
-      }
-    }else if (d1 == 0){
-      if (c == 1){
-        c = 0;
-        sum |= mask;
-      }
-    }else{
-      if (c == 0){
-        c = 1;
-      }else{
-        sum |= mask;
-      }
-    }
+  if (b == 0) {
+    return a;
   }
-
-  return sum;
+  int sum = a ^ b;
+  int carry = (a & b) << 1;
+  return add(sum, carry);
 }
 
 int main(){

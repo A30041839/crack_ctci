@@ -1,9 +1,4 @@
-#include <iostream>
-#include <unordered_map>
-#include <string>
-#include <vector>
-#include <sstream>
-#include <algorithm>
+#include "../ctci.h"
 
 using namespace std;
 
@@ -46,7 +41,6 @@ int main(){
   string file = "Since the beginning, we've focused on providing the best user experience possible.\
                  Whether we're designing a new Internet browser or a new tweak to the look of the homepage , \
                  we take great care to ensure that they will ultimately serve you, rather than our own internal goal or bottom line";
-  
   buildIndex(file);
   string s1 = "Internet";
   string s2 = "homepage";

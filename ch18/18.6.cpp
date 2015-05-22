@@ -1,24 +1,20 @@
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <algorithm>
+#include "../ctci.h"
 
 using namespace std;
 
 vector<int> getMinNumbers1(vector<int>& vec, int k){
   vector<int> res;
   priority_queue<int, vector<int>, less<int> > max_pq;
-  for (int i = 0; i < vec.size(); ++i){
-    if (max_pq.size() == k + 1){
+  for (int i = 0; i < vec.size(); ++i) {
+    if (i < k) {
+      max_pq.push(vec[i]);
+    }else if (max_pq.top() > vec[i]) {
       max_pq.pop();
+      max_pq.push(vec[i]);
     }
-    max_pq.push(vec[i]);
   }
-  if (!max_pq.empty()){
-    max_pq.pop();
-  }
-  while (!max_pq.empty()){
-    res.push_back(max_pq.top());
+  while (!max_pq.empty()) {
+    res.insert(res.begin(), max_pq.top());
     max_pq.pop();
   }
   return res;
@@ -30,8 +26,7 @@ int partition(vector<int>& vec, int start, int finish){
   swap(vec[mid], vec[finish]);
   for (int j = start; j < finish; ++j){
     if (vec[j] < vec[finish]){
-      ++i;
-      swap(vec[i], vec[j]);
+      swap(vec[++i], vec[j]);
     }
   }
   swap(vec[i + 1], vec[finish]);
@@ -43,12 +38,12 @@ vector<int> getMinNumbers2(vector<int>& vec, int k){
   int finish = vec.size() - 1;
   while (start <= finish){
     int pos = partition(vec, start, finish);
-    if (pos == k + start - 1){
+    if (pos == start + k - 1) {
       break;
-    }else if (pos < k + start - 1){
+    }else if (pos < start + k - 1) {
       start = pos + 1;
-      k = k - pos + start - 1;
-    }else{
+      k -= (pos - start + 1);
+    }else {
       finish = pos - 1;
     }
   }
@@ -65,10 +60,6 @@ int main(){
     vec.push_back(i);
   }
   vector<int> res = getMinNumbers2(vec, 10);
-  for (int i = 0; i < res.size(); ++i){
-    cout << res[i] << ",";
-  }
-  cout << endl;
-
+  print_array(res);
   return 0;
 }

@@ -1,6 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <limits.h>
+#include "../ctci.h"
 
 using namespace std;
 

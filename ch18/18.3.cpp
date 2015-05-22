@@ -1,20 +1,20 @@
-#include <iostream>
-#include <vector>
-#include <time.h>
+#include "../ctci.h"
 
 using namespace std;
 
-int rand1(int k){
-  return rand() % k;
-}
-
-vector<int> sample(vector<int> vec, int m){
+vector<int> chooseMfromN(vector<int>& v, int m) {
+  if (v.size() < m) {
+    return {};
+  }
   vector<int> res;
-  int n = vec.size();
-  for (int i = 0; i < m; ++i){
-    int p = rand1(n - i);
-    res.push_back(vec[p]);
-    vec.erase(vec.begin() + p);
+  for (int i = 0; i < m; ++i) {
+    res.push_back(v[i]);
+  }
+  for (int i = m; i < v.size(); ++i) {
+    int j = rand() % (i + 1);
+    if (j < m) {
+      res[j] = v[i];
+    }
   }
   return res;
 }
@@ -25,10 +25,7 @@ int main(){
   for (int i = 1; i <= 20; ++i){
     vec.push_back(i);
   }
-  vector<int> vecSample = sample(vec, 6);
-  for (int i = 0; i < 6; ++i){
-    cout << vecSample[i] << ",";
-  }
-  cout << endl;
+  vector<int> res = chooseMfromN(vec, 6);
+  print_array(res);
   return 0;
 }
